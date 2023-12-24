@@ -1,0 +1,65 @@
+/* Reset some default styles */
+body{
+    background-color: #11235A;
+}
+body, h1, p {
+    text-align: center;
+}
+
+/* Set a background color and font for the body */
+body {
+    background-color: #427D9D;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+}
+
+div {
+    border: 5px solid #11235A;
+    padding: 10px;
+    border-radius: 20px;
+    /* Add other styling properties as needed */
+}
+
+
+.uploadBtn{
+    cursor: pointer;
+    height: 50px;
+    width: 100px;
+    color: #427D9D;
+    background-color: #11235A;
+    border-radius: 15px;
+    font-weight: bold;
+}
+
+
+.labelText{
+    font-size: 20px;
+}
+/* Center the content on the page */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the OCR results section */
+#output {
+    margin-top: 20px;
+}
+
+/* Style the OCR result fields */
+.result-field {
+    margin-bottom: 10px;
+}
+
+/* Style for 'Not found' fields */
+.not-found {
+    color: #888;
+}
+
+/* Add some spacing between elements */
+.result-field, .not-found {
+    line-height: 1.5;
+}

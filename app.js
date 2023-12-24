@@ -6,14 +6,16 @@ const app = express();
 const path = require("path");
 const fs = require("fs");
 const tess = require("tesseract.js");
+require('dotenv').config();
 app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = initializeApp({
-    apiKey: "AIzaSyDkLkXvfbwQUM2CZ1fPYU1vEh5O-EIJ4mI",
+    apiKey: process.env.FIREBASE_API_KEY,
     authDomain: "thai-id-ocr.firebaseapp.com",
     databaseURL: "https://thai-id-ocr-default-rtdb.firebaseio.com",
     projectId: "thai-id-ocr",
@@ -25,7 +27,14 @@ const firebaseConfig = initializeApp({
 
 
 app.get("/", function (req, res) {
-    res.render("index");
+    res.render("index", {
+        name: 'Not found',
+        lastName: 'Not found',
+        identificationNumber: 'Not found',
+        dateOfIssue: 'Not found',
+        dateOfExpiry: 'Not found',
+        dateOfBirth: 'Not found'
+    });
 });
 // Multer configuration for handling file uploads
 const multer = require("multer");
@@ -47,31 +56,52 @@ app.post("/upload", upload.single("fileInput"), (req, res) => {
     console.log("File size:", uploadedImage.size, "bytes");
     console.log("MIME type:", uploadedImage.mimetype);
 
-    //SAving the image here
+    // Saving the image here
     const fileName = `${Date.now()}_${uploadedImage.originalname}`;
     const filePath = path.join(__dirname, fileName);
     console.log(fileName);
     fs.writeFileSync(filePath, uploadedImage.buffer);
 
     // Perform OCR processing here
-    // ...
-    tess.recognize(fileName,"eng", {logger: e => console.log(e)})
+    tess.recognize(fileName, "eng", { logger: e => console.log(e) })
         .then(out => {
             const ocrText = out.data.text;
 
-            // Send the OCR text as part of the response
-            return res.json({ success: true, message: "OCR processing complete", ocrText });
+            // Function to extract information based on patterns
+            const extractInfo = (pattern) => {
+                const regex = new RegExp(`${pattern}\\s*([^\\n]*)`, 'i');
+                const match = ocrText.match(regex);
+                return match ? match[1].trim() : 'Not found';
+            };
+
+            // Extracted information
+            const name = extractInfo('Name');
+            const lastName = extractInfo('Last name');
+            const identificationNumber = extractInfo('Identification Number');
+            const dateOfIssue = extractInfo('Date of issue');
+            const dateOfExpiry = extractInfo('Date of expiry');
+            const dateOfBirth = extractInfo('Date of Birth');
+
+            // Log the extracted information
+            console.log(ocrText);
+
+            // Send the extracted information and OCR text as part of the response
+            return res.render("index", {
+                name,
+                lastName,
+                identificationNumber,
+                dateOfIssue,
+                dateOfExpiry,
+                dateOfBirth
+            });
         })
         .catch(error => {
             // Handle OCR processing error
             console.error(error);
             return res.status(500).json({ success: false, message: "OCR processing failed" });
         });
-
-    // Send a response back to the client
-    // return res.json({ success: true, message: "OCR processing complete" });
-    return ;
 });
+
 
 
 // Initialize Firebase

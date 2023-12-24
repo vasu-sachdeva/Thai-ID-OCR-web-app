@@ -4,35 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thai ID Card OCR</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-
-        #output {
-            margin-top: 20px;
-        }
-
-        .error {
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <h1>Thai ID Card OCR</h1>
-
+<div id="uploadImage">
 <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
-    <label for="fileInput">Upload Thai ID Card Image:</label>
+    <label for="fileInput" class="labelText">Upload Thai ID Card Image:</label>
     <input type="file" id="fileInput" name="fileInput" accept=".png, .jpeg, .jpg" required>
     <span class="error" id="fileError"></span>
-    <br>
-    <button type="button" onclick="validateAndUpload()">Upload</button>
+    <br><br> <br>
+    <button type="button" class="uploadBtn" onclick="validateAndUpload()">Upload</button>
 </form>
+</div>
 
 <div id="output">
     <!-- Display OCR results or error messages here -->
+    <h1>OCR output</h1>
+    <% if (name !== 'Not found') { %>
+            <p>Name: <%= name %></p>
+        <% } %>
+
+        <% if (lastName !== 'Not found') { %>
+            <p>Last Name: <%= lastName %></p>
+        <% } %>
+
+        <% if (identificationNumber !== 'Not found') { %>
+            <p>Identification Number: <%= identificationNumber %></p>
+        <% } %>
+
+        <% if (dateOfIssue !== 'Not found') { %>
+            <p>Date of Issue: <%= dateOfIssue %></p>
+        <% } %>
+
+        <% if (dateOfExpiry !== 'Not found') { %>
+            <p>Date of Expiry: <%= dateOfExpiry %></p>
+        <% } %>
+
+        <% if (dateOfBirth !== 'Not found') { %>
+            <p>Date of Birth: <%= dateOfBirth %></p>
+        <% } %>
 </div>
 
 <script>
@@ -67,31 +79,11 @@
         return;
     }
 
-    // If all validations pass, you can proceed with uploading the file
-    // You may want to display a loading indicator here and perform the actual upload
-
-    // Example: Displaying a success message
     outputDiv.innerHTML = '<p>File validation successful. Uploading...</p>';
 
-    // Now, submit the form programmatically
+    // Now, submit the form
     document.getElementById('uploadForm').submit();
     }
-
-
-    fetch('/upload', {
-            method: 'POST',
-            // Include any necessary headers or body for the request
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                document.getElementById('output').innerText = data.ocrText;
-            } else {
-                console.error(data.message);
-            }
-        })
-        .catch(error => console.error(error));
-
 </script>
 
 </body>
