@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thai ID Card OCR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        #output {
+            margin-top: 20px;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Thai ID Card OCR</h1>
+
+<form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+    <label for="fileInput">Upload Thai ID Card Image:</label>
+    <input type="file" id="fileInput" name="fileInput" accept=".png, .jpeg, .jpg" required>
+    <span class="error" id="fileError"></span>
+    <br>
+    <button type="button" onclick="validateAndUpload()">Upload</button>
+</form>
+
+<div id="output">
+    <!-- Display OCR results or error messages here -->
+</div>
+
+<script>
+    function validateAndUpload() {
+    var fileInput = document.getElementById('fileInput');
+    var fileError = document.getElementById('fileError');
+    var outputDiv = document.getElementById('output');
+
+    // Reset previous error messages
+    fileError.textContent = '';
+
+    // Check if a file is selected
+    if (!fileInput.files || fileInput.files.length === 0) {
+        fileError.textContent = 'Please select a file.';
+        return;
+    }
+
+    // Get the selected file
+    var file = fileInput.files[0];
+
+    // Check file type
+    var allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    if (!allowedTypes.includes(file.type)) {
+        fileError.textContent = 'Invalid file type. Please upload a PNG, JPEG, or JPG image.';
+        return;
+    }
+
+    // Check file size (in bytes)
+    var maxSize = 2 * 1024 * 1024; // 2MB
+    if (file.size > maxSize) {
+        fileError.textContent = 'File size exceeds 2MB limit. Please upload a smaller file.';
+        return;
+    }
+
+    // If all validations pass, you can proceed with uploading the file
+    // You may want to display a loading indicator here and perform the actual upload
+
+    // Example: Displaying a success message
+    outputDiv.innerHTML = '<p>File validation successful. Uploading...</p>';
+
+    // Now, submit the form programmatically
+    document.getElementById('uploadForm').submit();
+    }
+
+
+    fetch('/upload', {
+            method: 'POST',
+            // Include any necessary headers or body for the request
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('output').innerText = data.ocrText;
+            } else {
+                console.error(data.message);
+            }
+        })
+        .catch(error => console.error(error));
+
+</script>
+
+</body>
+</html>
