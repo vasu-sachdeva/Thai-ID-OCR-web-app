@@ -8,10 +8,10 @@
 </head>
 <body>
 
-<h1>Thai ID Card OCR</h1>
+<h1 id="mainHeading" onclick="windo.location.href-'/';">Thai ID Card OCR</h1>
 <div id="uploadImage">
 <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
-    <label for="fileInput" class="labelText">Upload Thai ID Card Image:</label>
+    <label for="fileInput" class="labelText"><h3>Upload Thai ID Card Image:</h3></label>
     <input type="file" id="fileInput" name="fileInput" accept=".png, .jpeg, .jpg" required>
     <span class="error" id="fileError"></span>
     <br><br> <br>
@@ -21,7 +21,7 @@
 
 <div id="output">
     <!-- Display OCR results or error messages here -->
-    <h1>OCR output</h1>
+    <h3>OCR output</h3>
     <% if (name !== 'Not found') { %>
             <p>Name: <%= name %></p>
         <% } %>
@@ -46,6 +46,11 @@
             <p>Date of Birth: <%= dateOfBirth %></p>
         <% } %>
 </div>
+
+
+<button id="take_to_history" onclick = "window.location.href='/get-all-users';" class="deleteBtn" style="align-items: end; margin-top: 20px;">See History</button>
+
+
 
 <script>
     function validateAndUpload() {

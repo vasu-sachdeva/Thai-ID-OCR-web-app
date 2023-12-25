@@ -5,7 +5,12 @@ body{
 body, h1, p {
     text-align: center;
 }
-
+h1{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #11235A;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    -webkit-text-stroke: 0.5px #FFFFFF;
+}
 /* Set a background color and font for the body */
 body {
     background-color: #427D9D;
@@ -20,6 +25,19 @@ div {
     /* Add other styling properties as needed */
 }
 
+h1{
+    cursor: pointer;
+}
+
+.deleteBtn{
+    cursor: pointer;
+    height: 25px;
+    width: 75px;
+    color: #427D9D;
+    background-color: #11235A;
+    border-radius: 15px;
+    font-weight: bold;
+}
 
 .uploadBtn{
     cursor: pointer;
@@ -44,6 +62,10 @@ div {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+#take_to_history{
+    height: 40px;
+    width: 75px;
+}
 /* Style the OCR results section */
 #output {
     margin-top: 20px;
