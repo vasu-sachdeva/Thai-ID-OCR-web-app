@@ -1,8 +1,9 @@
-My submission for Qoala's placement drive at LNMIIT, Jaipur
+My submission for Qoala's placement drive at LNMIIT, Jaipur.
+
 Hosted at https://thai-id-ocr-9tnr.onrender.com/
 
 **Tech Stack**
-1. Frontend - HTML, CSS
+1. Frontend - EJS templates, CSS
 3. Backend - NodeJS
 2. Database - Google Firebase
 4. OCR - https://github.com/zapolnoch/node-tesseract-ocr
